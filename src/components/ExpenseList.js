@@ -4,7 +4,7 @@ import Item from "./ExpenseItem"
 const ExpenseList = () => {
 	return (
 		<div>
-			<h1>Hello from Express list</h1>
+			<p>Hello from Express list</p>
 			<Item />
 		</div>
 	)
