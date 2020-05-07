@@ -83,7 +83,7 @@ label {
 	align-items: center;
 }
 .btn:hover {
-	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
 }
 .btn-icon {
 	margin-left: 0.75rem;
@@ -106,7 +106,7 @@ label {
 	transition: all 0.3s linear;
 }
 .item:hover {
-	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
 	transform: scale(1.05);
 }
 .info {
