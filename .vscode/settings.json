@@ -2,6 +2,5 @@
   "editor.formatOnSave": true,
   "javascript.format.semicolons": "remove",
   "typescript.format.semicolons": "remove",
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "json.format.enable": false
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

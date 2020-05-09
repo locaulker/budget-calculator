@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid"
 const initialExpenses = [
   { id: uuidv4(), charge: "rent", amount: 1600 },
   { id: uuidv4(), charge: "car payment", amount: 400 },
-  { id: uuidv4(), charge: "credit card bill", amount: 1200 }
+  { id: uuidv4(), charge: "credit card bill", amount: 1200 },
 ]
 
 const App = () => {
@@ -17,14 +17,18 @@ const App = () => {
   const [charge, setCharge] = useState("")
   const [amount, setAmount] = useState("")
   const [alert, setAlert] = useState({ show: false })
+  const [edit, setEdit] = useState(false)
+  const [id, setId] = useState(0)
 
   // *********** Functionalities ************
   const handleCharge = e => {
     setCharge(e.target.value)
   }
+
   const handleAmount = e => {
     setAmount(e.target.value)
   }
+
   const handleAlert = ({ type, text }) => {
     setAlert({ show: true, type, text })
     setTimeout(() => {
@@ -36,14 +40,47 @@ const App = () => {
     e.preventDefault()
 
     if (charge !== "" && amount > 0) {
-      const singleExpense = { id: uuidv4(), charge, amount }
-      setExpenses([...expenses, singleExpense])
-      handleAlert({ type: "success", text: "Item Added" })
+      let tempExpenses = expenses.map(item => {
+        return item.id === id ? { ...item, charge, amount } : item
+      })
+      setExpenses(tempExpenses)
+      setEdit(false)
+      handleAlert({ type: "success", text: "Item Edited" })
+
+      if (edit) {
+      } else {
+        const singleExpense = { id: uuidv4(), charge, amount }
+        setExpenses([...expenses, singleExpense])
+        handleAlert({ type: "success", text: "Item Added" })
+      }
       setCharge("")
       setAmount("")
     } else {
-      handleAlert({ type: "danger", text: `A Charge must be entered and Ammount mus be greater than 0` })
+      handleAlert({
+        type: "danger",
+        text: `A Charge must be entered and Amount mus be greater than 0`,
+      })
     }
+  }
+
+  const clearItems = () => {
+    setExpenses([])
+    handleAlert({ type: "danger", text: "All items deleted" })
+  }
+
+  const handleDelete = id => {
+    let tempExpenses = expenses.filter(item => item.id !== id)
+    setExpenses(tempExpenses)
+    handleAlert({ type: "danger", text: "item deleted" })
+  }
+
+  const handleEdit = id => {
+    let expense = expenses.find(item => item.id === id)
+    let { charge, amount } = expense
+    setCharge(charge)
+    setAmount(amount)
+    setEdit(true)
+    setId(id)
   }
 
   return (
@@ -52,11 +89,23 @@ const App = () => {
       <Alert />
       <h1>Budget Calculator</h1>
       <main className="App">
-        <ExpenseForm charge={charge} amount={amount} handleCharge={handleCharge} handleAmount={handleAmount} handleSubmit={handleSubmit} />
-        <ExpenseList expenses={expenses} />
+        <ExpenseForm
+          charge={charge}
+          amount={amount}
+          handleCharge={handleCharge}
+          handleAmount={handleAmount}
+          handleSubmit={handleSubmit}
+          edit={edit}
+        />
+        <ExpenseList
+          expenses={expenses}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          clearItems={clearItems}
+        />
       </main>
-      <h1>
-        Total Spending:{" "}
+      <h1 className="total-spending">
+        Total Charges:{" "}
         <span className="total">
           $
           {expenses.reduce((acc, curr) => {
