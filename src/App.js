@@ -1,18 +1,24 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import "./App.css"
 import ExpenseList from "./components/ExpenseList"
 import ExpenseForm from "./components/ExpenseForm"
 import Alert from "./components/Alert"
 import { v4 as uuidv4 } from "uuid"
 
-const initialExpenses = [
-  { id: uuidv4(), charge: "rent", amount: 1600 },
-  { id: uuidv4(), charge: "car payment", amount: 400 },
-  { id: uuidv4(), charge: "credit card bill", amount: 1200 },
-]
+// ********* Without LocalStorage **********
+// const initialExpenses = [
+//   { id: uuidv4(), charge: "rent", amount: 1600 },
+//   { id: uuidv4(), charge: "car payment", amount: 400 },
+//   { id: uuidv4(), charge: "credit card bill", amount: 1200 },
+// ]
+
+// ********* With LocalStorage **********
+const initialExpenses = localStorage.getItem("expenses")
+  ? JSON.parse(localStorage.getItem("expenses"))
+  : []
 
 const App = () => {
-  // *********** State values ************
+  // *********** State Functionalities ************
   const [expenses, setExpenses] = useState(initialExpenses)
   const [charge, setCharge] = useState("")
   const [amount, setAmount] = useState("")
@@ -20,7 +26,13 @@ const App = () => {
   const [edit, setEdit] = useState(false)
   const [id, setId] = useState(0)
 
-  // *********** Functionalities ************
+  // *********** useEffect Functionalities ************
+  useEffect(() => {
+    console.log("useEffect is called")
+    localStorage.setItem("expenses", JSON.stringify(expenses))
+  }, [expenses])
+
+  // *********** Event Handlers ************
   const handleCharge = e => {
     setCharge(e.target.value)
   }
