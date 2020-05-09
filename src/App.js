@@ -28,7 +28,7 @@ const App = () => {
 
   // *********** useEffect Functionalities ************
   useEffect(() => {
-    console.log("useEffect is called")
+    // console.log("useEffect is called")
     localStorage.setItem("expenses", JSON.stringify(expenses))
   }, [expenses])
 
